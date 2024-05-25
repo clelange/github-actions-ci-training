@@ -21,6 +21,12 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+    - name: Label when approved
+      uses: pullreminders/label-when-approved-action@main
+      env:
+        APPROVALS: "1"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ADD_LABEL: "approved"
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
@@ -32,8 +38,8 @@ jobs:
         npm install
     - uses: actions/upload-artifact@main
       with:
-        name: webpack artifacts
-        path: dist-${{ matrix.node-version }}-${{ matrix.os }}/
+        name: webpack-artifacts-${{ matrix.node-version }}-${{ matrix.os }}
+        path: dist/
   
   test:
     needs: build
@@ -42,5 +48,5 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@main
         with:
-          name: webpack artifacts
-          path: dist-18.x-ubuntu-latest
+          name: webpack-artifacts-18.x-ubuntu-latest
+          path: dist
