@@ -33,7 +33,7 @@ jobs:
     - uses: actions/upload-artifact@main
       with:
         name: webpack artifacts
-        path: dist/
+        path: dist-${{ matrix.node-version }}-${{ matrix.os }}/
   
   test:
     needs: build
@@ -43,4 +43,4 @@ jobs:
       - uses: actions/download-artifact@main
         with:
           name: webpack artifacts
-          path: dist
+          path: dist-18.x-ubuntu-latest
